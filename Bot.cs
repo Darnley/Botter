@@ -26,7 +26,7 @@ namespace Botter
         /// </summary>
         public Bot()
         {
-
+            
         }
 
         /// <summary>
