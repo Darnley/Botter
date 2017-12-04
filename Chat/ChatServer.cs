@@ -14,12 +14,12 @@ namespace Botter
         {
             public string Host { get; set; }
             public int Port { get; set; }
-            public Socket Socket { get; set; }
-            private Chat Chat { get; set; }
+            public Socket Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            private Bot Bot { get; set; }
             
-            public ChatServer(Chat OuterChatInstance)
+            public ChatServer(Bot outerBot)
             {
-                this.Chat = OuterChatInstance;
+                this.Bot = outerBot;
             }
 
             /// <summary>
@@ -56,12 +56,12 @@ namespace Botter
             /// </summary>
             /// <param name="chat">Chat instance</param>
             /// <returns>Server state</returns>
-            public void EstablishServerConnection()
+            public void ConnectToServer()
             {
                 IPAddress[] IPs = Dns.GetHostAddresses(this.Host);
                 this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 this.Socket.Connect(IPs[0], this.Port);
-                this.SendData(String.Format("<y r=\"{0}\" m=\"1\" v=\"0\" u=\"{1}\" />", Chat.Id, Chat.Bot.Id), true);
+                this.SendData(String.Format("<y r=\"{0}\" m=\"1\" v=\"0\" u=\"{1}\" />", Bot.Chat.Id, Bot.Id), true);
             }
         }
     }

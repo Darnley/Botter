@@ -31,9 +31,9 @@ namespace Botter
                 this.Name = (string)serverResponse.SelectToken("name");
                 this.Description = (string)serverResponse.SelectToken("desc");
                 this.Type = (string)serverResponse.SelectToken("chatType");
+                this.Server = new ChatServer(outerBotInstance);
                 this.Server.Host = (string)serverResponse.SelectToken("connIP");
                 this.Server.Port = (int)serverResponse.SelectToken("connPort");
-                this.Server = new ChatServer(this);
             }
             else
                 throw new Exception(String.Format("Invalid chat. {0}", (string)serverResponse.SelectToken("message")));
