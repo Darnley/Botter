@@ -40,7 +40,7 @@ namespace Botter
             this.Id = int.Parse(serverResponse.Get("UserId"));
             this.AuthenticationKeys.Key1 = serverResponse.Get("k1");
             this.AuthenticationKeys.Key2 = serverResponse.Get("k2");
-            this.Chat = new Chat(chatName);
+            this.Chat = new Chat(chatName, this);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Botter
         public Bot(string chatName, int botId, string botAuthenticationKey1, string botAuthenticationKey2)
         {
             this.Id = botId;
-            this.Chat = new Chat(chatName);
+            this.Chat = new Chat(chatName, this);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Botter
             this.Password = botPassword;
             this.AuthenticationKeys.Key1 = botAuthenticationKey1;
             this.AuthenticationKeys.Key2 = botAuthenticationKey2;
-            this.Chat = new Chat(chatName);
+            this.Chat = new Chat(chatName, this);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Botter
             this.AvatarUrl = botAvatarUrl;
             this.HomepageUrl = botHomepageUrl;
             this.OwnerId = botOwnerId;
-            this.Chat = new Chat(chatName);
+            this.Chat = new Chat(chatName, this);
         }
         #endregion
     }

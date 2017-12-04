@@ -10,17 +10,18 @@ namespace Botter
 {
     partial class Chat
     {
-        public int Id { get; private set; }
+        public int Id { get; protected set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
         public string Type { get; private set; }
-        public ChatServer Server { get; private set; } = new ChatServer();
+        public ChatServer Server { get; set; }
+        private Bot Bot { get; set; }
 
         /// <summary>
         /// Chat Constructor.
         /// </summary>
         /// <param name="chatName">Chat Name to connect</param>
-        public Chat(string chatName)
+        public Chat(string chatName, Bot outerBotInstance)
         {
             JToken serverResponse = JObject.Parse(new WebClient().DownloadString(String.Format("https://api.mundosmilies.com/chatinfo.php?chat={0}", chatName)));
 
@@ -32,6 +33,7 @@ namespace Botter
                 this.Type = (string)serverResponse.SelectToken("chatType");
                 this.Server.Host = (string)serverResponse.SelectToken("connIP");
                 this.Server.Port = (int)serverResponse.SelectToken("connPort");
+                this.Server = new ChatServer(this);
             }
             else
                 throw new Exception(String.Format("Invalid chat. {0}", (string)serverResponse.SelectToken("message")));
