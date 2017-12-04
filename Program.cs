@@ -10,7 +10,7 @@ namespace Botter
     {
         static void Main(string[] args)
         {
-            Bot bot = new Bot();
+            Bot bot = new Bot("asdasd32d2");
         }
     }
 }

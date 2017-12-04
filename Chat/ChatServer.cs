@@ -4,9 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Botter.Botter.Chat
+namespace Botter
 {
-    class ChatServer
+    partial class Chat
     {
+        public class ChatServer
+        {
+            public string Host { get; set; }
+            public int Port { get; set; }
+        }
     }
 }
