@@ -10,6 +10,7 @@ namespace Botter
     {
         static void Main(string[] args)
         {
+            Bot bot = new Bot();
         }
     }
 }

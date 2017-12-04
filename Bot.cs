@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
+using System.Web;
 
 namespace Botter
 {
@@ -11,22 +13,31 @@ namespace Botter
     /// </summary>
     class Bot
     {
+        #region Attributes
         public int Id { get; protected set; }
         public string Regname { get; protected set; }
         public string Password { get; protected set; }
-        public BotAuthenticationKeys AuthenticationKeys { get; protected set; }
-        public string DisplayName { get; protected set; }
-        public string AvatarUrl { get; protected set; }
-        public string HomepageUrl { get; protected set; }
-        public int OwnerId { get; protected set; }
+        public BotAuthenticationKeys AuthenticationKeys = new BotAuthenticationKeys();
+        public string DisplayName { get; protected set; } = "Botter Bot";
+        public string AvatarUrl { get; protected set; } = "http://imgur.com/logo.png";
+        public string HomepageUrl { get; protected set; } = "http://xat.com";
+        public int OwnerId { get; protected set; } = 250481203;
+        #endregion
 
+        #region Class Constructors
         /// <summary>
         /// Bot class constructor.
         /// Generate a new ID.
         /// </summary>
         public Bot()
         {
-            
+            WebClient webClient = new WebClient();
+            Uri authUserUrl = new Uri(String.Format("https://xat.com/?{0}", webClient.DownloadString("https://xat.com/web_gear/chat/auser3.php")));
+            var serverResponse = HttpUtility.ParseQueryString(authUserUrl.Query);
+
+            this.Id = int.Parse(serverResponse.Get("UserId"));
+            this.AuthenticationKeys.Key1 = serverResponse.Get("k1");
+            this.AuthenticationKeys.Key2 = serverResponse.Get("k2");
         }
 
         /// <summary>
@@ -79,11 +90,12 @@ namespace Botter
             this.HomepageUrl = botHomepageUrl;
             this.OwnerId = botOwnerId;
         }
+        #endregion
 
         /// <summary>
         /// Store Bot Account Authentication Keys
         /// </summary>
-        public abstract class BotAuthenticationKeys
+        public class BotAuthenticationKeys
         {
             public string Key1 { get; set; }
             public string Key2 { get; set; }
