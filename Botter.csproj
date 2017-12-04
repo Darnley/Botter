@@ -56,7 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bot.cs" />
+    <Compile Include="Bot\Bot.cs" />
+    <Compile Include="Bot\BotAuthenticationKeys.cs" />
+    <Compile Include="Chat\Chat.cs" />
+    <Compile Include="Chat\ChatServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

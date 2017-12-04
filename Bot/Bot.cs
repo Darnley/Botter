@@ -91,14 +91,5 @@ namespace Botter
             this.OwnerId = botOwnerId;
         }
         #endregion
-
-        /// <summary>
-        /// Store Bot Account Authentication Keys
-        /// </summary>
-        public class BotAuthenticationKeys
-        {
-            public string Key1 { get; set; }
-            public string Key2 { get; set; }
-        }
     }
 }
