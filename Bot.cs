@@ -14,5 +14,11 @@ namespace Botter
         public string DisplayName { get; protected set; }
         public string AvatarUrl { get; protected set; }
         public string HomepageUrl { get; protected set; }
+        public int OwnerId { get; protected set; }
+
+        public Bot(int botId, string botRegname = null, string botPassword = null)
+        {
+            
+        }
     }
 }
