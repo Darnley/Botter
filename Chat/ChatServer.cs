@@ -51,7 +51,7 @@ namespace Botter
                 this.Socket.Send(System.Text.Encoding.ASCII.GetBytes(String.Format("<y r=\"{0}\" m=\"1\" v=\"0\" u=\"{1}\" />\x00", Bot.Chat.Id, Bot.Id)));
 
                 // Receive the response from the remote device.  
-                int bytesRec = Socket.Receive(bytes);
+                int bytesRec = this.Socket.Receive(bytes);
                 if (verbose) Console.WriteLine("Received: {0}", Encoding.ASCII.GetString(bytes, 0, bytesRec));
 
                 return Encoding.ASCII.GetString(bytes, 0, bytesRec);
