@@ -52,6 +52,8 @@ namespace Botter
         {
             this.Id = botId;
             this.Chat = new Chat(chatName, this);
+            this.AuthenticationKeys.Key1 = botAuthenticationKey1;
+            this.AuthenticationKeys.Key2 = botAuthenticationKey2;
         }
 
         /// <summary>

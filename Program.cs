@@ -26,7 +26,7 @@ namespace Botter
 
             try
             {
-                Bot bot = new Bot("Megafire");
+                Bot bot = new Bot("Megafire", 1528127568, "39d855a60b5a221eab00", "721253236");
 
                 Console.WriteLine(String.Format("Chat Name: {0}", bot.Chat.Name));
                 Console.WriteLine(String.Format("Chat Id:   {0}", bot.Chat.Id));
