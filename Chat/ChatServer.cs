@@ -17,9 +17,9 @@ namespace Botter
             public Socket Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             private Bot Bot { get; set; }
             
-            public ChatServer(Bot outerBot)
+            public ChatServer(Bot _outer)
             {
-                this.Bot = outerBot;
+                this.Bot = _outer;
             }
 
             /// <summary>

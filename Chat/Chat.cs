@@ -21,7 +21,7 @@ namespace Botter
         /// Chat Constructor.
         /// </summary>
         /// <param name="chatName">Chat Name to connect</param>
-        public Chat(string chatName, Bot outerBotInstance)
+        public Chat(string chatName, Bot _outer)
         {
             JToken serverResponse = JObject.Parse(new WebClient().DownloadString(String.Format("https://api.mundosmilies.com/chatinfo.php?chat={0}", chatName)));
 
@@ -31,7 +31,7 @@ namespace Botter
                 this.Name = (string)serverResponse.SelectToken("name");
                 this.Description = (string)serverResponse.SelectToken("desc");
                 this.Type = (string)serverResponse.SelectToken("chatType");
-                this.Server = new ChatServer(outerBotInstance);
+                this.Server = new ChatServer(_outer);
                 this.Server.Host = (string)serverResponse.SelectToken("connIP");
                 this.Server.Port = (int)serverResponse.SelectToken("connPort");
             }
