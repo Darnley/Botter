@@ -56,7 +56,7 @@ namespace Botter
             /// </summary>
             /// <param name="chat">Chat instance</param>
             /// <returns>Server state</returns>
-            public void ConnectToServer()
+            public void Connect()
             {
                 IPAddress[] IPs = Dns.GetHostAddresses(this.Host);
                 this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

@@ -35,7 +35,7 @@ namespace Botter
                 Console.WriteLine(String.Format("Chat Port: {0}", bot.Chat.Server.Port));
                 Console.WriteLine("-----------------");
 
-                bot.Chat.Server.ConnectToServer();
+                bot.Chat.Server.Connect();
             } catch(Exception ex)
             {
                 Log.Fatal(ex.Message, ex);
