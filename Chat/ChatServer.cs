@@ -43,27 +43,18 @@ namespace Botter
             /// <returns>Returned string from server</returns>
             public string SendData(string data, bool verbose = false)
             {
-                data = data + '\x00';
+                byte[] bytes = new byte[1024];
+                data = String.Format("{0}\x00", data);
 
-                Console.WriteLine();
+                // Send data to remote device
+                if (verbose) Console.WriteLine("Sent: {0}", data);
+                this.Socket.Send(System.Text.Encoding.ASCII.GetBytes(String.Format("<y r=\"{0}\" m=\"1\" v=\"0\" u=\"{1}\" />\x00", Bot.Chat.Id, Bot.Id)));
 
-                // Create startString TCPClient object at the IP and port no
-                TcpClient client = new TcpClient(this.Host, this.Port);
-                NetworkStream nwStream = client.GetStream();
-                byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes(data);
+                // Receive the response from the remote device.  
+                int bytesRec = Socket.Receive(bytes);
+                if (verbose) Console.WriteLine("Received: {0}", Encoding.ASCII.GetString(bytes, 0, bytesRec));
 
-                // Send the text
-                if (verbose) Console.WriteLine(String.Format("Sent: {0}", data));
-                nwStream.Write(bytesToSend, 0, bytesToSend.Length);
-
-                // Read the received data
-                byte[] bytesToRead = new byte[client.ReceiveBufferSize];
-                int bytesRead = nwStream.Read(bytesToRead, 0, client.ReceiveBufferSize);
-                string bytesReadEncoded = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
-                if (verbose) Console.WriteLine(String.Format("Received: {0}", bytesReadEncoded));
-                client.Close();
-
-                return Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
+                return Encoding.ASCII.GetString(bytes, 0, bytesRec);
             }
 
             /// <summary>
@@ -78,7 +69,10 @@ namespace Botter
                 IPAddress[] IPs = Dns.GetHostAddresses(this.Host);
                 this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 this.Socket.Connect(IPs[0], this.Port);
-                response = this.SendData(String.Format("<y r=\"{0}\" m=\"1\" v=\"0\" u=\"{1}\" />", Bot.Chat.Id, Bot.Id), true);
+
+                //response = this.SendData(String.Format("<y r=\"{0}\" m=\"1\" v=\"0\" u=\"{1}\" />", Bot.Chat.Id, Bot.Id), true);
+                response = SendData(String.Format("<y r=\"{0}\" m=\"1\" v=\"0\" u=\"{1}\" />", Bot.Chat.Id, Bot.Id), true);
+
                 this.Packet.I = GetBetween(response, "i=\"", "\"");
                 this.Packet.P = GetBetween(response, "p=\"", "\"");
                 this.Packet.L5 = CalculateL5Authentication();
@@ -124,9 +118,9 @@ namespace Botter
                 string p_octaves = l5_info[2];
                 string p_seed = l5_info[3];
 
-                int t = int.Parse(this.Packet.I) % (p_w * p_h);
-                int p_x = t % p_w;
-                int p_y = (int)Math.Floor((double)t / p_w);
+                int t = (int.Parse(this.Packet.I)%(p_w*p_h));
+                int p_x = (int)(t%100);
+                int p_y = (int)Math.Floor((double)t/p_w);
                 string fileContent;
 
                 // Check seed
@@ -147,7 +141,6 @@ namespace Botter
 
                         if (String.Format("{0},{1}", p_x, p_y).Equals(value[0]))
                         {
-                            Console.WriteLine("p_x: " + p_x + "; p_y: " + p_y + "; value: " + value[1]);
                             return value[1];
                         }
                     }
