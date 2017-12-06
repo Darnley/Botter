@@ -46,6 +46,24 @@ namespace Botter
         /// <summary>
         /// Bot class constructor.
         /// </summary>
+        /// <param name="chatId">Chat Id to connect</param>
+        /// <param name="serverHost">Chat server host to connect</param>
+        /// <param name="serverPort">Chat server port to connect</param>
+        public Bot(int chatId, string serverHost, int serverPort)
+        {
+            WebClient webClient = new WebClient();
+            Uri authUserUrl = new Uri(String.Format("https://xat.com/?{0}", webClient.DownloadString("https://xat.com/web_gear/chat/auser3.php")));
+            var serverResponse = HttpUtility.ParseQueryString(authUserUrl.Query);
+
+            this.Id = int.Parse(serverResponse.Get("UserId"));
+            this.AuthenticationKeys.Key1 = serverResponse.Get("k1");
+            this.AuthenticationKeys.Key2 = serverResponse.Get("k2");
+            this.Chat = new Chat(chatId, serverHost, serverPort, this);
+        }
+
+        /// <summary>
+        /// Bot class constructor.
+        /// </summary>
         /// <param name="botId">Bot Account ID</param>
         /// <param name="chatName">Chat Name to connect</param>
         public Bot(string chatName, int botId, string botAuthenticationKey1, string botAuthenticationKey2)

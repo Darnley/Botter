@@ -40,5 +40,22 @@ namespace Botter
             else
                 throw new Exception(String.Format("Invalid chat. {0}", (string)serverResponse.SelectToken("message")));
         }
+
+        /// <summary>
+        /// Chat Constructor.
+        /// </summary>
+        /// <param name="chatId">Chat Id to connect</param>
+        public Chat(int chatId, string serverHost, int serverPort, Bot _outer)
+        {
+            this.Id = (int)chatId;
+            this.Name = null;
+            this.Description = null;
+            this.Type = null;
+            this.Server = new ChatServer(_outer)
+            {
+                Host = serverHost,
+                Port = serverPort
+            };
+        }
     }
 }
